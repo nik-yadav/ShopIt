@@ -123,7 +123,7 @@ export function Navbar() {
                 </li>
               </>
             )}
-            {!isAuthenticated() && (
+            {isAuthenticated() && (
               <li>
                 <span
                   className="text-sm font-semibold text-gray-800 hover:text-gray-900 cursor-pointer"
