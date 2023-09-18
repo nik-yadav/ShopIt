@@ -25,6 +25,7 @@ exports.signup = (req, res) => {
       name: user.name,
       email: user.email,
       id: user._id,
+      success: true,
     });
   });
 };
@@ -63,7 +64,16 @@ exports.signin = (req, res) => {
 
     // Send res to front-end
     const { _id, name, email, role } = user;
-    return res.json({ token, user: { _id, name, email, role } });
+    return res.json({
+      token,
+      user: {
+        _id,
+        name,
+        email,
+        role,
+      },
+      success: true,
+    });
   });
 };
 
