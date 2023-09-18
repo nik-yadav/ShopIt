@@ -1,5 +1,6 @@
-import React from "react";
-import Router from "./Routes";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
+import Router from "./Router";
+import { RouterProvider } from "react-router-dom";
 
-ReactDOM.render(<Router />, document.getElementById("root"));
+const root = createRoot(document.getElementById("root"));
+root.render(<RouterProvider router={Router} />);

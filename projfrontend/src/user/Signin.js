@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Base from "../core/Base";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import { signin, authenticate, isAuthenticated } from "../auth/helper";
 
@@ -43,13 +43,13 @@ const Signin = () => {
     // todo: do a reirection;
     if (didRedirect) {
       if (user && user.role === 1) {
-        return <Redirect to="/admin/dashboard" />;
+        return <Navigate to="/admin/dashboard" />;
       } else {
-        return <Redirect to="/user/dashboard" />;
+        return <Navigate to="/user/dashboard" />;
       }
     }
     if (isAuthenticated()) {
-      return <Redirect to="/" />;
+      return <Navigate to="/" />;
     }
   };
 
