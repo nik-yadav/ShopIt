@@ -1,64 +1,32 @@
 import React from "react";
-import { createBrowserRouter } from "react-router-dom";
+import {
+  Route,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from "react-router-dom";
 import Home from "./core/Home";
+import Layout from "./core/Layout";
 import Signin from "./user/Signin";
 import Signup from "./user/Signup";
-// import AdminRoute from "./auth/helper/AdminRoutes";
-// import PrivateRoute from "./auth/helper/PrivateRoutes";
+import AdminRoutes from "./auth/helper/AdminRoutes";
+import ProtectedRoutes from "./auth/helper/ProtectedRoutes";
 import UserDashBoard from "./user/UserDashBoard";
 import AdminDashBoard from "./user/AdminDashBoard";
 
-const Router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-    children: [
-      {
-        path: "signup",
-        element: <Signup />,
-      },
-      {
-        path: "signin",
-        element: <Signin />,
-      },
-      {
-        path: "user",
-        children: [
-          {
-            path: "dashboard",
-            element: <UserDashBoard />,
-          },
-        ],
-      },
-      {
-        path: "admin",
-        children: [
-          {
-            path: "dashboard",
-            element: <AdminDashBoard />,
-          },
-        ],
-      },
-    ],
-  },
-]);
-
-// v4
-
-// const Router = () => {
-//   return (
-//     <BrowserRouter>
-//       <Routes>
-//         <Route exact path="/" component={Home} />
-//         <Route exact path="/signup" component={Signup} />
-//         <Route exact path="/signin" component={Signin} />
-//         <PrivateRoute exact path="/user/dashboard" component={UserDashBoard} />
-//         <AdminRoute exact path="/admin/dashboard" component={AdminDashBoard} />
-//       </Routes>
-//     </BrowserRouter>
-//   );
-// };
-
-// const router = createBrowserRouter()
+const Router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Layout />}>
+      <Route exact path="" element={<Home />} />
+      <Route path="signup" element={<Signup />} />
+      <Route path="signin" element={<Signin />} />
+      <Route path="user" element={<ProtectedRoutes />}>
+        <Route path="dashboard" element={<UserDashBoard />} />
+      </Route>
+      <Route path="admin" element={<AdminRoutes />}>
+        <Route path="dashboard" element={<AdminDashBoard />} />
+      </Route>
+    </Route>
+  )
+);
 
 export default Router;
