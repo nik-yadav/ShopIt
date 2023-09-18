@@ -1,11 +1,11 @@
 import React from "react";
-import Menu from "./Menu";
+import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
 
 function Layout() {
   return (
     <div className="bg-dark">
-      <Menu />
+      <Navbar />
       <Outlet />
       <footer className="footer bg-dark mt-auto py-3">
         <div className="container-fluid bg-success text-white text-center py-3">
