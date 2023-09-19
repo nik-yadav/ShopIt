@@ -12,10 +12,11 @@ import AdminRoutes from "./auth/helper/AdminRoutes";
 import ProtectedRoutes from "./auth/helper/ProtectedRoutes";
 import UserDashBoard from "./user/UserDashBoard";
 import AdminDashBoard from "./user/AdminDashBoard";
+import ErrorBoundary from "./core/ErrorBoundary";
 
 const Router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
+    <Route path="/" element={<Layout />} errorElement={<ErrorBoundary />}>
       <Route exact path="" element={<Home />} />
       <Route path="signup" element={<Signup />} />
       <Route path="signin" element={<Signin />} />
