@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import Base from "../core/Base";
 import { Link } from "react-router-dom";
+import {
+  Card,
+  Input,
+  Checkbox,
+  Button,
+  Typography,
+} from "@material-tailwind/react";
+import Base from "../core/Base";
 import { signup } from "../auth/helper/index";
 
 const Signup = () => {
@@ -18,7 +25,7 @@ const Signup = () => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
 
-  const OnSubmit = (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false });
     signup({ name, email, password })
@@ -41,47 +48,79 @@ const Signup = () => {
 
   const signUpForm = () => {
     return (
-      <div className="row">
-        <div className="col-md-6 offset-sm-3 text-left">
-          <form>
-            <div className="form-group">
-              <label className="text-light">Name</label>
-              <input
-                className="form-control"
+      <div class="flex justify-center mt-8 mb-8">
+        <Card color="transparent" shadow={false}>
+          <Typography variant="h4" color="blue-gray">
+            Sign Up
+          </Typography>
+          <Typography color="gray" className="mt-1 font-normal">
+            Enter your details to register.
+          </Typography>
+          <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+            <div className="mb-4 flex flex-col gap-6">
+              <Input
+                className="shadow-none"
                 onChange={handleChange("name")}
-                type="text"
                 value={name}
+                size="lg"
+                label="Name"
               />
-            </div>
-
-            <div className="form-group">
-              <label className="text-light">Email</label>
-              <input
-                className="form-control"
+              <Input
+                className="shadow-none"
                 onChange={handleChange("email")}
-                type="email"
                 value={email}
+                size="lg"
+                label="Email"
               />
-            </div>
-
-            <div className="form-group">
-              <label className="text-light">Password</label>
-              <input
-                className="form-control"
+              <Input
+                className="shadow-none"
                 onChange={handleChange("password")}
-                type="password"
                 value={password}
+                type="password"
+                size="lg"
+                label="Password"
               />
             </div>
-
-            <button
-              onClick={OnSubmit}
-              className="form-control btn btn-success mt-4"
+            <Checkbox
+              className="shadow-none"
+              label={
+                <Typography
+                  variant="small"
+                  color="gray"
+                  className="flex items-center font-normal"
+                >
+                  I agree the
+                  <Link
+                    to="#"
+                    className="font-medium transition-colors hover:text-gray-900"
+                  >
+                    &nbsp;Terms and Conditions
+                  </Link>
+                </Typography>
+              }
+              containerProps={{ className: "-ml-2.5" }}
+            />
+            <Button
+              className="mt-6 hover:bg-[#2ecc72]"
+              onClick={onSubmit}
+              fullWidth
             >
-              Submit
-            </button>
+              Register
+            </Button>
+            <Typography
+              color="gray"
+              className="text-sm mt-4 text-center font-normal"
+            >
+              Already have an account?{" "}
+              <Link
+                to="/signin"
+                className="font-semibold text-gray-900 hover:text-[#2ecc72]"
+              >
+                Sign In
+              </Link>
+            </Typography>
           </form>
-        </div>
+        </Card>
       </div>
     );
   };
@@ -118,11 +157,11 @@ const Signup = () => {
   };
 
   return (
-    <Base title="Sign up page" description="A page for user to sign up!">
+    <Base>
       {successMessage()}
       {errorMessage()}
       {signUpForm()}
-      <p className="text-white text-center">{JSON.stringify(values)}</p>
+      <p className="text-center">{JSON.stringify(values)}</p>
     </Base>
   );
 };
