@@ -5,7 +5,7 @@ function ProductCard({
   product: { brand, name, rating, reviews, price, mrp, off },
 }) {
   return (
-    <div className="card w-80 h-96 bg-base-100 hover:shadow-2xl border border-gray-100">
+    <div className="card h-96 bg-base-100 hover:shadow-2xl border border-gray-100">
       <figure>
         <img
           src="https://imgs.search.brave.com/aMhXcStaFIX3MeLAoqCkjesqSEYRvzToNnAOWOvMoos/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTI4/ODk2NzUxMC9waG90/by9zdHlsaXNoLWJs/b25kZS1naXJsLXdl/YXJpbmctd2hpdGUt/dC1zaGlydC1hbmQt/Z2xhc3Nlcy5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9VXRj/azFoSkJWS3EwU2pC/cGlBbHFBTmlodHdJ/X0pJeE4xZ0NKU2lK/M1p1cz0"
