@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Outlet,
   Route,
   createBrowserRouter,
   createRoutesFromElements,
@@ -13,11 +14,15 @@ import ProtectedRoutes from "./auth/helper/ProtectedRoutes";
 import UserDashBoard from "./user/UserDashBoard";
 import AdminDashBoard from "./user/AdminDashBoard";
 import ErrorBoundary from "./core/ErrorBoundary";
+import Checkout from "./core/Checkout";
 
 const Router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />} errorElement={<ErrorBoundary />}>
-      <Route exact path="" element={<Home />} />
+      <Route path="" element={<Home />} />
+      <Route path="cart" element={<Outlet />}>
+        <Route path="checkout" element={<Checkout />} />
+      </Route>
       <Route path="signup" element={<Signup />} />
       <Route path="signin" element={<Signin />} />
       <Route path="user" element={<ProtectedRoutes />}>
