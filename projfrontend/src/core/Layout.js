@@ -2,11 +2,13 @@ import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { Outlet } from "react-router-dom";
+import Counter from "../redux/counter";
 
 function Layout() {
   return (
     <>
       <Navbar />
+      <Counter />
       <Outlet />
       <Footer />
       {/* <footer className="footer bg-gray-900 mt-auto py-3">
