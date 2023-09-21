@@ -6,6 +6,7 @@ import ProductCard from "../utilities/ProductCard";
 
 const products = [
   {
+    id: 1,
     brand: "Lymio",
     name: "Men T-Shirt || T-Shirt for Men || Plain T Shirt || T-Shirt (Rib)",
     rating: "4.95",
@@ -15,6 +16,7 @@ const products = [
     off: "93",
   },
   {
+    id: 2,
     brand: "Lymio",
     name: "Men T-Shirt || T-Shirt for Men || Plain T Shirt || T-Shirt (Rib)",
     rating: "4.95",
@@ -24,6 +26,7 @@ const products = [
     off: "93",
   },
   {
+    id: 3,
     brand: "Lymio",
     name: "Men T-Shirt || T-Shirt for Men || Plain T Shirt || T-Shirt (Rib)",
     rating: "4.95",
@@ -33,6 +36,7 @@ const products = [
     off: "93",
   },
   {
+    id: 4,
     brand: "Lymio",
     name: "Men T-Shirt || T-Shirt for Men || Plain T Shirt || T-Shirt (Rib)",
     rating: "4.95",
@@ -42,6 +46,7 @@ const products = [
     off: "93",
   },
   {
+    id: 5,
     brand: "Lymio",
     name: "Men T-Shirt || T-Shirt for Men || Plain T Shirt || T-Shirt (Rib)",
     rating: "4.95",
@@ -51,6 +56,7 @@ const products = [
     off: "93",
   },
   {
+    id: 6,
     brand: "Lymio",
     name: "Men T-Shirt || T-Shirt for Men || Plain T Shirt || T-Shirt (Rib)",
     rating: "4.95",
@@ -69,7 +75,7 @@ export default function Home() {
       <Sidebar>
         <div className="grid grid-cols-3 gap-y-3 gap-x-2">
           {products.map((product) => (
-            <ProductCard product={product} />
+            <ProductCard product={product} key={product.id} />
           ))}
         </div>
       </Sidebar>
