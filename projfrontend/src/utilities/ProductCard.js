@@ -37,8 +37,8 @@ function ProductCard({
         </div>
 
         <div className="flex justify-center">
-          <div class="currency">&#8377;</div>
-          <div class="price text-3xl font-medium mr-1"> {price}</div>
+          <div className="currency">&#8377;</div>
+          <div className="price text-3xl font-medium mr-1"> {price}</div>
           <div className="mrp text-sm self-end font-medium text-gray-600 mr-2">
             M.R.P: &#8377; <span className="line-through">{mrp}</span>
           </div>
