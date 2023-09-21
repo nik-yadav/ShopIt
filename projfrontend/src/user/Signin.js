@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { authenticate, isAuthenticated, signin } from "../auth/helper";
 import Base from "../core/Base";
 
 function Signin() {
+  const navigate = useNavigate();
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -13,7 +14,6 @@ function Signin() {
   });
 
   const { email, password, error, loading, didRedirect } = values;
-  const { user } = isAuthenticated();
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
@@ -41,11 +41,12 @@ function Signin() {
   const performRedirect = () => {
     // todo: do a reirection;
     if (didRedirect) {
-      if (user && user.role === 1) {
-        return <Navigate to="/admin/dashboard" />;
-      } else {
-        return <Navigate to="/user/dashboard" />;
-      }
+      return navigate(-1);
+      // if (user && user.role === 1) {
+      //   return <Navigate to="/admin/dashboard" />;
+      // } else {
+      //   return <Navigate to="/user/dashboard" />;
+      // }
     }
     if (isAuthenticated()) {
       return <Navigate to="/" />;
