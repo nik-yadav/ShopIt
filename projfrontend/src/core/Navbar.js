@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { isAuthenticated, signout } from "../auth/helper";
+import Cart from "./Cart";
 
 const menuItems = [
   {
@@ -10,13 +11,17 @@ const menuItems = [
   },
 ];
 
-export function Navbar() {
+export function Navbar({ cartState: [open, setOpen] }) {
   const navigate = useNavigate();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleCart = () => {
+    setOpen(true);
   };
 
   return (
@@ -135,7 +140,12 @@ export function Navbar() {
             )}
           </ul>
         </div>
-        <div className="hidden lg:block rounded-md px-3 py-2 text-sm cursor-pointer font-semibold shadow-sm hover:bg-black/80 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">
+
+        {/* cart icon */}
+        <div
+          className="block rounded-md px-3 py-2 text-sm cursor-pointer font-semibold shadow-sm hover:bg-black/80 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+          onClick={toggleCart}
+        >
           {/* cart icon */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -155,6 +165,8 @@ export function Navbar() {
         <div className="lg:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
         </div>
+
+        {/* menu for smaller screens */}
         {isMenuOpen && (
           <div className="absolute inset-x-0 top-0 z-50 origin-top-right transform p-2 transition lg:hidden">
             <div className="divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
@@ -177,6 +189,8 @@ export function Navbar() {
                     </span>
                     <span className="font-bold">DevUI</span>
                   </div>
+
+                  {/* close menu button */}
                   <div className="-mr-2">
                     <button
                       type="button"
@@ -191,43 +205,106 @@ export function Navbar() {
                 <div className="mt-6">
                   <nav className="grid gap-y-4">
                     {menuItems.map((item) => (
-                      <Link
+                      <NavLink
                         key={item.name}
                         to={item.href}
-                        className="-m-3 flex items-center rounded-md p-3 text-sm font-semibold hover:bg-gray-50"
+                        className="-m-3 flex items-center rounded-md p-3 text-sm font-semibold hover:bg-gray-50 text-gray-900"
+                        style={({ isActive }) => {
+                          return {
+                            color: isActive ? "#2ecc72" : "",
+                          };
+                        }}
                       >
-                        <span className="ml-3 text-base font-medium text-gray-900">
+                        <span className="ml-3 text-base font-medium">
                           {item.name}
                         </span>
-                      </Link>
+                      </NavLink>
                     ))}
+
+                    {isAuthenticated() && isAuthenticated().user.role === 1 && (
+                      <NavLink
+                        to="/admin/dashboard"
+                        className="-m-3 flex items-center rounded-md p-3 hover:bg-gray-50 text-gray-900"
+                        style={({ isActive }) => {
+                          return {
+                            color: isActive ? "#2ecc72" : "",
+                          };
+                        }}
+                      >
+                        <span className="ml-3 text-base font-medium ">
+                          Admin Dashboard
+                        </span>
+                      </NavLink>
+                    )}
+
+                    {isAuthenticated() && isAuthenticated().user.role === 0 && (
+                      <NavLink
+                        to="/user/dashboard"
+                        className="-m-3 flex items-center rounded-md p-3 hover:bg-gray-50 text-gray-900"
+                        style={({ isActive }) => {
+                          return {
+                            color: isActive ? "#2ecc72" : "",
+                          };
+                        }}
+                      >
+                        <span className="ml-3 text-base font-medium ">
+                          User Dashboard
+                        </span>
+                      </NavLink>
+                    )}
+
+                    {!isAuthenticated() && (
+                      <>
+                        <NavLink
+                          to="/signin"
+                          className="-m-3 flex items-center rounded-md p-3 hover:bg-gray-50 text-gray-900"
+                          style={({ isActive }) => {
+                            return {
+                              color: isActive ? "#2ecc72" : "",
+                            };
+                          }}
+                        >
+                          <span className="ml-3 text-base font-medium ">
+                            Sign in
+                          </span>
+                        </NavLink>
+                        <NavLink
+                          to="/signup"
+                          className="-m-3 flex items-center rounded-md p-3 hover:bg-gray-50 text-gray-900"
+                          style={({ isActive }) => {
+                            return {
+                              color: isActive ? "#2ecc72" : "",
+                            };
+                          }}
+                        >
+                          <span className="ml-3 text-base font-medium ">
+                            Sign up
+                          </span>
+                        </NavLink>
+                      </>
+                    )}
+                    {isAuthenticated() && (
+                      <span
+                        className="-m-3 flex items-center rounded-md p-3 hover:bg-gray-50 text-gray-900 cursor-pointer"
+                        onClick={() => {
+                          signout(() => {
+                            navigate("/");
+                          });
+                        }}
+                      >
+                        <span className="ml-3 text-base font-medium ">
+                          Signout
+                        </span>
+                      </span>
+                    )}
                   </nav>
                 </div>
-                <button
-                  type="button"
-                  className="mt-4 w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                >
-                  {/* cart icon */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-                    />
-                  </svg>
-                </button>
               </div>
             </div>
           </div>
         )}
       </div>
+      <Cart cartState={[open, setOpen]} />
     </div>
   );
 }

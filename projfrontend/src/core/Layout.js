@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { Outlet } from "react-router-dom";
 import Counter from "../redux/counter";
 
 function Layout() {
+  const [open, setOpen] = useState(false);
+
   return (
     <>
-      <Navbar />
+      <Navbar cartState={[open, setOpen]} />
       <Counter />
       <Outlet />
       <Footer />
