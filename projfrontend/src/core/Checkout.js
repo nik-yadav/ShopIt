@@ -1,46 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart } from "../redux/reducers/cartSlice";
 
-const products = [
-  {
-    id: 1,
-    name: "Nike Air Force 1 07 LV8",
-    href: "#",
-    price: "₹47,199",
-    mrp: "₹48,900",
-    discount: "5% Off",
-    color: "Orange",
-    size: "8 UK",
-    imageSrc:
-      "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/54a510de-a406-41b2-8d62-7f8c587c9a7e/air-force-1-07-lv8-shoes-9KwrSk.png",
-  },
-  {
-    id: 2,
-    name: "Nike Blazer Low 77 SE",
-    href: "#",
-    price: "₹1,549",
-    mrp: "₹2,499",
-    discount: "38% off",
-    color: "White",
-    leadTime: "3-4 weeks",
-    size: "8 UK",
-    imageSrc:
-      "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/e48d6035-bd8a-4747-9fa1-04ea596bb074/blazer-low-77-se-shoes-0w2HHV.png",
-  },
-  {
-    id: 3,
-    name: "Nike Air Max 90",
-    href: "#",
-    price: "₹2219 ",
-    mrp: "₹999",
-    discount: "78% off",
-    color: "Black",
-    imageSrc:
-      "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/fd17b420-b388-4c8a-aaaa-e0a98ddf175f/dunk-high-retro-shoe-DdRmMZ.png",
-  },
-];
+// const products = [
+//   {
+//     id: 1,
+//     name: "Nike Air Force 1 07 LV8",
+//     href: "#",
+//     price: "₹47,199",
+//     mrp: "₹48,900",
+//     discount: "5% Off",
+//     color: "Orange",
+//     size: "8 UK",
+//     imageSrc:
+//       "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/54a510de-a406-41b2-8d62-7f8c587c9a7e/air-force-1-07-lv8-shoes-9KwrSk.png",
+//   },
+//   {
+//     id: 2,
+//     name: "Nike Blazer Low 77 SE",
+//     href: "#",
+//     price: "₹1,549",
+//     mrp: "₹2,499",
+//     discount: "38% off",
+//     color: "White",
+//     leadTime: "3-4 weeks",
+//     size: "8 UK",
+//     imageSrc:
+//       "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/e48d6035-bd8a-4747-9fa1-04ea596bb074/blazer-low-77-se-shoes-0w2HHV.png",
+//   },
+//   {
+//     id: 3,
+//     name: "Nike Air Max 90",
+//     href: "#",
+//     price: "₹2219 ",
+//     mrp: "₹999",
+//     discount: "78% off",
+//     color: "Black",
+//     imageSrc:
+//       "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/fd17b420-b388-4c8a-aaaa-e0a98ddf175f/dunk-high-retro-shoe-DdRmMZ.png",
+//   },
+// ];
 
 export default function Checkout() {
+  const products = useSelector((state) => state.cart.value);
+  const [subTotal, setSubTotal] = useState(0);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const total = products.reduce((total, product) => {
+      return (total += product.price * product.quantity);
+    }, 0);
+    setSubTotal(total);
+  }, [products]);
+
   return (
     <div className="mx-auto my-4 max-w-4xl md:my-6">
       <div className="overflow-hidden  rounded-xl shadow">
@@ -278,16 +292,23 @@ export default function Checkout() {
                             {product.color}
                           </p>
                         </div>
-                        <p className="mt-4 text-xs font-medium ">x 1</p>
+                        <div class="flex gap-1 mt-4 text-sm font-medium">
+                          <p>x</p>
+                          <p>{product.quantity}</p>
+                        </div>
                       </div>
                     </div>
                     <div className="ml-auto flex flex-col items-end justify-between">
-                      <p className="text-right text-sm font-bold text-gray-900">
-                        {product.price}
-                      </p>
+                      <div class="flex gap-0.5 ml-4 text-md font-medium">
+                        <div className="currency">&#8377;</div>
+                        <div className="price">{product.price}</div>
+                      </div>
                       <button
                         type="button"
                         className="-m-2 inline-flex rounded p-2 text-gray-400 transition-all duration-200 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2"
+                        onClick={() => {
+                          dispatch(removeFromCart(product));
+                        }}
                       >
                         <span className="sr-only">Remove</span>
                         <X className="h-5 w-5" />
@@ -320,11 +341,17 @@ export default function Checkout() {
             <ul className="mt-6 space-y-3">
               <li className="flex items-center justify-between text-gray-600">
                 <p className="text-sm font-medium">Sub total</p>
-                <p className="text-sm font-medium">₹1,14,399</p>
+                <div class="flex gap-0.5 text-sm font-medium">
+                  <div className="currency">&#8377;</div>
+                  <div>{subTotal}</div>
+                </div>
               </li>
               <li className="flex items-center justify-between text-gray-900">
                 <p className="text-sm font-medium ">Total</p>
-                <p className="text-sm font-bold ">₹1,14,399</p>
+                <div class="flex gap-0.5 text-sm font-bold">
+                  <div className="currency">&#8377;</div>
+                  <div>{subTotal}</div>
+                </div>
               </li>
             </ul>
           </div>
