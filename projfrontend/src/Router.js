@@ -15,6 +15,11 @@ import UserDashBoard from "./user/UserDashBoard";
 import AdminDashBoard from "./user/AdminDashBoard";
 import ErrorBoundary from "./core/ErrorBoundary";
 import Checkout from "./core/Checkout";
+import Profile from "./admin/Profile";
+import AddCategory from "./admin/AddCategory";
+import AddProduct from "./admin/AddProduct";
+import ManageProducts from "./admin/ManageProducts";
+import ManageOrders from "./admin/ManageOrders";
 
 const Router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,7 +34,17 @@ const Router = createBrowserRouter(
         <Route path="dashboard" element={<UserDashBoard />} />
       </Route>
       <Route path="admin" element={<AdminRoutes />}>
-        <Route path="dashboard" element={<AdminDashBoard />} />
+        <Route path="dashboard" element={<AdminDashBoard />}>
+          <Route path="" element={<Profile />} />
+          <Route path="create" element={<Outlet />}>
+            <Route path="category" element={<AddCategory />} />
+            <Route path="product" element={<AddProduct />} />
+          </Route>
+          <Route path="manage" element={<Outlet />}>
+            <Route path="products" element={<ManageProducts />} />
+            <Route path="orders" element={<ManageOrders />} />
+          </Route>
+        </Route>
       </Route>
     </Route>
   )
