@@ -1,6 +1,5 @@
 import React from "react";
 import { API } from "../backend";
-import Base from "./Base";
 import Sidebar from "./Sidebar";
 import ProductCard from "../utilities/ProductCard";
 
@@ -71,14 +70,12 @@ export default function Home() {
   console.log("API IS", API);
 
   return (
-    <Base>
-      <Sidebar>
-        <div className="grid grid-cols-3 gap-y-3 gap-x-2">
-          {products.map((product) => (
-            <ProductCard product={product} key={product.id} />
-          ))}
-        </div>
-      </Sidebar>
-    </Base>
+    <Sidebar>
+      <div className="grid grid-cols-3 gap-y-3 gap-x-2">
+        {products.map((product) => (
+          <ProductCard product={product} key={product.id} />
+        ))}
+      </div>
+    </Sidebar>
   );
 }

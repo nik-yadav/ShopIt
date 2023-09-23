@@ -9,7 +9,9 @@ function Layout() {
   return (
     <>
       <Navbar cartState={[open, setOpen]} />
-      <Outlet />
+      <div class="p-4">
+        <Outlet />
+      </div>
       <Footer />
       {/* <footer className="footer bg-gray-900 mt-auto py-3">
         <div className="container w-full bg-green-800 text-white text-center py-3">

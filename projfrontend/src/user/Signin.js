@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { authenticate, isAuthenticated, signin } from "../auth/helper";
-import Base from "../core/Base";
 
 function Signin() {
   const navigate = useNavigate();
@@ -180,13 +179,13 @@ function Signin() {
   };
 
   return (
-    <Base>
+    <>
       {loadingMessage()}
       {errorMessage()}
       {signInForm()}
       {performRedirect()}
       <p className="text-center">{JSON.stringify(values)}</p>
-    </Base>
+    </>
   );
 }
 

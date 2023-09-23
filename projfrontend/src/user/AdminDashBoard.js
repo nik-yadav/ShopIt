@@ -1,5 +1,4 @@
 import React from "react";
-import Base from "../core/Base";
 import { isAuthenticated } from "../auth/helper";
 import { Link } from "react-router-dom";
 
@@ -58,16 +57,12 @@ const AdminDashBoard = () => {
   };
 
   return (
-    <Base
-      title="Welcome to an admin area"
-      description="Manage all of your products here"
-      className="container bg-success p-4"
-    >
+    <>
       <div className="row">
         <div className="col-3">{adminLeftSide()}</div>
         <div className="col-9">{adminRightSide()}</div>
       </div>
-    </Base>
+    </>
   );
 };
 

@@ -7,7 +7,6 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
-import Base from "../core/Base";
 import { signup } from "../auth/helper/index";
 
 const Signup = () => {
@@ -157,12 +156,12 @@ const Signup = () => {
   };
 
   return (
-    <Base>
+    <>
       {successMessage()}
       {errorMessage()}
       {signUpForm()}
       <p className="text-center">{JSON.stringify(values)}</p>
-    </Base>
+    </>
   );
 };
 
