@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { isAuthenticated, signout } from "../auth/helper";
 import Cart from "./Cart";
+import { useSelector } from "react-redux";
 
 const menuItems = [
   {
@@ -13,6 +14,7 @@ const menuItems = [
 
 export function Navbar({ cartState: [open, setOpen] }) {
   const navigate = useNavigate();
+  const cart = useSelector((state) => state.cart.value.length);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -143,10 +145,13 @@ export function Navbar({ cartState: [open, setOpen] }) {
 
         {/* cart icon */}
         <div
-          className="block rounded-md px-3 py-2 text-sm cursor-pointer font-semibold shadow-sm hover:bg-black/80 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+          className="block rounded-md px-3 py-2 text-sm cursor-pointer font-semibold shadow-sm hover:bg-black/80 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black relative"
           onClick={toggleCart}
         >
           {/* cart icon */}
+          <span class="px-[6px] -right-1 -bottom-2 flex absolute justify-center rounded-full bg-[#E1AD01] text-sm font-medium text-white ring-1 ring-inset ring-gray-500/10">
+            {cart}
+          </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
