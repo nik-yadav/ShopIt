@@ -7,6 +7,13 @@ export const cartSlice = createSlice({
   },
   reducers: {
     addToCart: (state, action) => {
+      const index = state.value.findIndex(
+        (item) => item.id === action.payload.id,
+      );
+      if (index !== -1) {
+        state.value[index].count += 1;
+        return;
+      }
       state.value.push({ ...action.payload, count: 1 });
       console.log("clicked");
     },
