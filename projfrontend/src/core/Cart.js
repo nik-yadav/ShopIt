@@ -128,7 +128,15 @@ export default function Cart({ cartState: [open, setOpen] }) {
                                           {product.name}
                                         </a>
                                       </h3>
-                                      <p className="ml-4">{product.price}</p>
+                                      <div class="flex gap-0.5 ml-4">
+                                        <div className="currency text-xs font-normal">
+                                          &#8377;
+                                        </div>
+                                        <div className="price font-medium text-md">
+                                          {product.price}
+                                        </div>
+                                      </div>
+                                      {/* <p className="ml-4">{product.price}</p> */}
                                     </div>
                                     <p className="mt-1 text-sm text-gray-500">
                                       {product.color}
