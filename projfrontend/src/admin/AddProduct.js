@@ -22,12 +22,18 @@ function AddProduct() {
     e.preventDefault();
     const { token, user } = JSON.parse(localStorage.getItem("jwt"));
 
+    let formDataToSend = new FormData();
+
+    for (const key in formData) {
+      formDataToSend.append(key, formData[key]);
+    }
+
     fetch(`${API}/product/create/${user._id}`, {
       method: "POST",
       headers: {
         Authorization: `bearer ${token}`,
       },
-      body: formData,
+      body: formDataToSend,
     }).then((response) => {
       if (response) {
         alert("Product added successfully");
