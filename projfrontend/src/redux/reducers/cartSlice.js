@@ -11,10 +11,10 @@ export const cartSlice = createSlice({
         (item) => item.id === action.payload.id,
       );
       if (index !== -1) {
-        state.value[index].count += 1;
+        state.value[index].quantity += 1;
         return;
       }
-      state.value.push({ ...action.payload, count: 1 });
+      state.value.push({ ...action.payload, quantity: 1 });
       console.log("clicked");
     },
     removeFromCart: (state, action) => {
