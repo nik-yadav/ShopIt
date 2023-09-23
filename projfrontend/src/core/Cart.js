@@ -136,7 +136,6 @@ export default function Cart({ cartState: [open, setOpen] }) {
                                           {product.price}
                                         </div>
                                       </div>
-                                      {/* <p className="ml-4">{product.price}</p> */}
                                     </div>
                                     <p className="mt-1 text-sm text-gray-500">
                                       {product.color}
@@ -175,7 +174,7 @@ export default function Cart({ cartState: [open, setOpen] }) {
                                         type="button"
                                         className="font-medium text-indigo-600 hover:text-indigo-500"
                                         onClick={() => {
-                                          dispatch(removeFromCart(product.id));
+                                          dispatch(removeFromCart(product));
                                         }}
                                       >
                                         Remove
