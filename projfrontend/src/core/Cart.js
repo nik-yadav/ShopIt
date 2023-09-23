@@ -3,7 +3,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { isAuthenticated } from "../auth/helper";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart } from "../redux/reducers/cartSlice";
 
 // const products = [
 //   {
@@ -37,6 +38,7 @@ export default function Cart({ cartState: [open, setOpen] }) {
   // const [open, setOpen] = useState(true);
   const navigate = useNavigate();
   const products = useSelector((state) => state.cart.value);
+  const dispatch = useDispatch();
 
   function handleCheckout(e) {
     e.preventDefault();
@@ -129,6 +131,9 @@ export default function Cart({ cartState: [open, setOpen] }) {
                                       <button
                                         type="button"
                                         className="font-medium text-indigo-600 hover:text-indigo-500"
+                                        onClick={() => {
+                                          dispatch(removeFromCart(product.id));
+                                        }}
                                       >
                                         Remove
                                       </button>
