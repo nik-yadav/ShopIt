@@ -9,7 +9,7 @@ function Layout() {
   return (
     <>
       <Navbar cartState={[open, setOpen]} />
-      <div class="p-4">
+      <div className="p-4">
         <Outlet />
       </div>
       <Footer />

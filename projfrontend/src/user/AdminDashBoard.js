@@ -1,42 +1,7 @@
 import React from "react";
-import { isAuthenticated } from "../auth/helper";
 import { Link, Outlet } from "react-router-dom";
 
 const AdminDashBoard = () => {
-  const {
-    user: { name, email, role },
-  } = isAuthenticated();
-
-  // const adminLeftSide = () => {
-  //   return (
-  //     <div className="card">
-  //       <h4 className="card-header bg-dark text-white">Admin Navigation</h4>
-  //       <ul className="list-group">
-  //         <li className="list-group-item">
-  //           <Link to="/admin/create/category" className="nav-link text-success">
-  //             Create Categories
-  //           </Link>
-  //         </li>
-  //         <li className="list-group-item">
-  //           <Link to="/admin/create/product" className="nav-link text-success">
-  //             Create Product
-  //           </Link>
-  //         </li>
-  //         <li className="list-group-item">
-  //           <Link to="/admin/products" className="nav-link text-success">
-  //             Manage Products
-  //           </Link>
-  //         </li>
-  //         <li className="list-group-item">
-  //           <Link to="/admin/orders" className="nav-link text-success">
-  //             Manage Orders
-  //           </Link>
-  //         </li>
-  //       </ul>
-  //     </div>
-  //   );
-  // };
-
   const adminLeftSide = () => {
     return (
       <aside className="sidebar flex h-screen flex-col overflow-y-auto border-r bg-white px-5 py-8">

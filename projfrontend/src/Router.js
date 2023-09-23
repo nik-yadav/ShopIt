@@ -33,6 +33,8 @@ const Router = createBrowserRouter(
       <Route path="user" element={<ProtectedRoutes />}>
         <Route path="dashboard" element={<UserDashBoard />} />
       </Route>
+
+      {/* admin routes */}
       <Route path="admin" element={<AdminRoutes />}>
         <Route path="dashboard" element={<AdminDashBoard />}>
           <Route path="" element={<Profile />} />
@@ -40,6 +42,7 @@ const Router = createBrowserRouter(
             <Route path="category" element={<AddCategory />} />
             <Route path="product" element={<AddProduct />} />
           </Route>
+
           <Route path="manage" element={<Outlet />}>
             <Route path="products" element={<ManageProducts />} />
             <Route path="orders" element={<ManageOrders />} />
