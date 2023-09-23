@@ -1,9 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../redux/reducers/cartSlice";
 
-function ProductCard({
-  product: { brand, name, rating, reviews, price, mrp, off },
-}) {
+function ProductCard({ product }) {
+  const cart = useSelector((state) => state.cart.value);
+  const dispatch = useDispatch();
+  const { brand, name, rating, reviews, price, mrp, off } = product;
   return (
     <div className="card  bg-base-100 hover:shadow-2xl border border-gray-100">
       <figure>
@@ -46,7 +49,13 @@ function ProductCard({
         </div>
 
         <div>
-          <button className="flex mt-6 w-full items-center justify-center rounded-md border border-transparent bg-gray-900 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-[#E1AD01]">
+          <button
+            className="flex mt-6 w-full items-center justify-center rounded-md border border-transparent bg-gray-900 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-[#E1AD01]"
+            onClick={() => {
+              dispatch(addToCart(product));
+              console.log(cart);
+            }}
+          >
             Add to cart
           </button>
         </div>
