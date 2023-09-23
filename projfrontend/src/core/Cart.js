@@ -4,7 +4,11 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { isAuthenticated } from "../auth/helper";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart } from "../redux/reducers/cartSlice";
+import {
+  addToCart,
+  decreaseQuantity,
+  removeFromCart,
+} from "../redux/reducers/cartSlice";
 
 // const products = [
 //   {
@@ -123,9 +127,32 @@ export default function Cart({ cartState: [open, setOpen] }) {
                                     </p>
                                   </div>
                                   <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500">
-                                      Qty {product.quantity}
-                                    </p>
+                                    <div className="inline-flex items-center justify-between gap-2 text-gray-500">
+                                      Qty
+                                      <button
+                                        className=" ml-4 text-gray-900 font-bold px-3 py-1 rounded-full outline outline-1 outline-gray-400"
+                                        disabled={product.quantity <= 1}
+                                        onClick={() => {
+                                          dispatch(decreaseQuantity(product));
+                                        }}
+                                      >
+                                        -
+                                      </button>
+                                      <input
+                                        type="number"
+                                        className="h-7 aspect-video text-center text-black font-medium outline outline-1 outline-gray-400 border-none"
+                                        value={product.quantity}
+                                        readOnly
+                                      />
+                                      <button
+                                        className=" text-gray-800 font-bold px-3 py-1 rounded-full outline outline-1 outline-gray-400"
+                                        onClick={() => {
+                                          dispatch(addToCart(product));
+                                        }}
+                                      >
+                                        +
+                                      </button>
+                                    </div>
 
                                     <div className="flex">
                                       <button
