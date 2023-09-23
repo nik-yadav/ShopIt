@@ -149,7 +149,7 @@ export function Navbar({ cartState: [open, setOpen] }) {
           onClick={toggleCart}
         >
           {/* cart icon */}
-          <span class="px-[6px] -right-1 -bottom-2 flex absolute justify-center rounded-full bg-[#E1AD01] text-sm font-medium text-white ring-1 ring-inset ring-gray-500/10">
+          <span className="px-[6px] -right-1 -bottom-2 flex absolute justify-center rounded-full bg-[#E1AD01] text-sm font-medium text-white ring-1 ring-inset ring-gray-500/10">
             {cart}
           </span>
           <svg
