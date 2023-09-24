@@ -31,15 +31,14 @@ exports.getCategory = (req, res) => {
   return res.json(req.category);
 };
 
-exports.getAllCategory = (req, res) => {
-  Category.find().exec((err, categories) => {
-    if (err) {
-      return res.status(400).json({
-        error: "NO category found",
-      });
-    }
-    res.json(categories);
-  });
+exports.getAllCategory = async (req, res) => {
+  const categories = await Category.find();
+  if (!categories) {
+    return res.status(400).json({
+      error: "NO category found",
+    });
+  }
+  res.json(categories);
 };
 
 exports.updateCategory = (req, res) => {

@@ -34,17 +34,26 @@ exports.photo = (req, res, next) => {
 
 // Create
 exports.createProduct = (req, res) => {
-  let form = new formidable.IncomingForm();
+  const form = new formidable.IncomingForm();
   form.keepExtensions = true;
 
-  form.parse(req, (err, fields, file) => {
+  form.parse(req, async (err, fields, file) => {
     if (err) {
       return res.status(400).json({
         error: "problem with image",
       });
     }
+
+    let convertedFields = {};
+
+    for (const field in fields) {
+      // console.log(field, fields[field]);
+      convertedFields[field] = fields[field][0];
+    }
+    console.log(convertedFields);
+
     // destructure the fields
-    const { name, description, price, category, stock } = fields;
+    const { name, description, price, category, stock } = convertedFields;
 
     if (!name || !description || !price || !category || !stock) {
       return res.status(400).json({
@@ -52,7 +61,7 @@ exports.createProduct = (req, res) => {
       });
     }
 
-    let product = new Product(fields);
+    let product = new Product(convertedFields);
 
     // handle file here
     if (file.photo) {
@@ -66,14 +75,21 @@ exports.createProduct = (req, res) => {
     }
 
     // save to the DB
-    product.save((err, product) => {
-      if (err) {
-        return res.status(400).json({
-          error: " saving tshirt in DB failed",
-        });
-      }
-      res.json(product);
-    });
+    const result = await product.save();
+    if (!result) {
+      return res.status(400).json({
+        error: "saving product in DB failed",
+      });
+    }
+    res.json(product);
+    // product.save((err, product) => {
+    //   if (err) {
+    //     return res.status(400).json({
+    //       error: " saving tshirt in DB failed",
+    //     });
+    //   }
+    //   res.json(product);
+    // });
   });
 };
 
@@ -82,7 +98,7 @@ exports.updateProduct = (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
 
-  form.parse(req, (err, fields, file) => {
+  form.parse(req, async (err, fields, file) => {
     if (err) {
       return res.status(400).json({
         error: "problem with image",
@@ -106,14 +122,21 @@ exports.updateProduct = (req, res) => {
     // console.log(product)
 
     // save to the DB
-    product.save((err, product) => {
-      if (err) {
-        return res.status(400).json({
-          error: "Updation of product failed",
-        });
-      }
-      res.json(product);
-    });
+    const result = await product.save();
+    if (!result) {
+      return res.status(400).json({
+        error: "Updation of product failed",
+      });
+    }
+    res.json(product);
+    // product.save((err, product) => {
+    //   if (err) {
+    //     return res.status(400).json({
+    //       error: "Updation of product failed",
+    //     });
+    //   }
+    //   res.json(product);
+    // });
   });
 };
 

@@ -2,7 +2,7 @@ require("dotenv").config();
 const User = require("../models/user");
 const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
-const expressJwt = require("express-jwt");
+const { expressjwt } = require("express-jwt");
 
 exports.signup = (req, res) => {
   const errors = validationResult(req);
@@ -85,14 +85,15 @@ exports.signout = (req, res) => {
 };
 
 // protected routes
-exports.isSignedIn = expressJwt({
+exports.isSignedIn = expressjwt({
   secret: process.env.SECRET, //Why secret is used here??????????????????
-  userProperty: "auth",
+  algorithms: ["HS256"],
 });
 
 // custom middlewares
 exports.isAuthenticated = (req, res, next) => {
   let checker = req.profile && req.auth && req.profile._id == req.auth._id;
+  console.log(checker);
   if (!checker) {
     return res.status(403).json({
       error: "ACCESS DENIED",
@@ -107,5 +108,6 @@ exports.isAdmin = (req, res, next) => {
       error: "You are not an admin, ACCESS DENIED",
     });
   }
+  console.log("admin check passed");
   next();
 };

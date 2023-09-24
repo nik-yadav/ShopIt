@@ -1,16 +1,15 @@
 const User = require("../models/user");
 const Order = require("../models/order");
 
-exports.getUserById = (req, res, next, id) => {
-  User.findById(id).exec((err, user) => {
-    if (err || !user) {
-      return res.status(400).json({
-        err: "No user was found in DB",
-      });
-    }
-    req.profile = user;
-    next();
-  });
+exports.getUserById = async (req, res, next, id) => {
+  const user = await User.findById(id).exec();
+  if (!user) {
+    return res.status(400).json({
+      err: "No user was found in DB",
+    });
+  }
+  req.profile = user;
+  next();
 };
 
 exports.getUser = (req, res) => {
