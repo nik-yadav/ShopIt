@@ -47,10 +47,8 @@ exports.createProduct = (req, res) => {
     let convertedFields = {};
 
     for (const field in fields) {
-      // console.log(field, fields[field]);
       convertedFields[field] = fields[field][0];
     }
-    console.log(convertedFields);
 
     // destructure the fields
     const { name, description, price, category, stock } = convertedFields;
@@ -82,14 +80,6 @@ exports.createProduct = (req, res) => {
       });
     }
     res.json(product);
-    // product.save((err, product) => {
-    //   if (err) {
-    //     return res.status(400).json({
-    //       error: " saving tshirt in DB failed",
-    //     });
-    //   }
-    //   res.json(product);
-    // });
   });
 };
 
@@ -119,7 +109,6 @@ exports.updateProduct = (req, res) => {
       product.photo.data = fs.readFileSync(file.photo.path);
       product.photo.contentType = file.photo.type;
     }
-    // console.log(product)
 
     // save to the DB
     const result = await product.save();
@@ -129,14 +118,6 @@ exports.updateProduct = (req, res) => {
       });
     }
     res.json(product);
-    // product.save((err, product) => {
-    //   if (err) {
-    //     return res.status(400).json({
-    //       error: "Updation of product failed",
-    //     });
-    //   }
-    //   res.json(product);
-    // });
   });
 };
 

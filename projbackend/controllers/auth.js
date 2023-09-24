@@ -43,7 +43,6 @@ exports.signin = (req, res) => {
 
   User.findOne({ email: email }, (err, user) => {
     if (err || !user) {
-      // doesn't understand the logic
       return res.status(400).json({
         error: "USER does not exists",
       });
@@ -93,7 +92,6 @@ exports.isSignedIn = expressjwt({
 // custom middlewares
 exports.isAuthenticated = (req, res, next) => {
   let checker = req.profile && req.auth && req.profile._id == req.auth._id;
-  console.log(checker);
   if (!checker) {
     return res.status(403).json({
       error: "ACCESS DENIED",
@@ -108,6 +106,5 @@ exports.isAdmin = (req, res, next) => {
       error: "You are not an admin, ACCESS DENIED",
     });
   }
-  console.log("admin check passed");
   next();
 };
