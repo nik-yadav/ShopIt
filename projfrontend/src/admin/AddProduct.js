@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { API } from "../backend";
+// import category from "../../../projbackend/models/category";
 
 const product = {
   brand: "",
@@ -12,6 +13,7 @@ const product = {
 
 function AddProduct() {
   const [formData, setFormData] = useState(product);
+  const [categories, setCategories] = useState([{}]);
 
   const handleChange = (e) => {
     const data = { ...formData, [e.target.name]: e.target.value };
@@ -40,6 +42,21 @@ function AddProduct() {
       }
     });
   };
+
+  useEffect(() => {
+    fetch(`${API}/categories`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        let list = data.map((category) => ({
+          id: category._id,
+          name: category.name,
+        }));
+        setCategories(list);
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
     <div className="isolate bg-white px-6 py-3 lg:px-8">
@@ -103,33 +120,17 @@ function AddProduct() {
                 onChange={handleChange}
                 value={formData.category}
               >
-                <option value="" disabled={true}>
+                <option key={0} value="" disabled={true}>
                   Select
                 </option>
-                <option value="polo">Polo</option>
-                <option value="nike">Nike</option>
-                <option value="half sleeves">half sleeves</option>
-                <option value="full sleeves">full sleeves</option>
+                {categories.map((category) => (
+                  <option key={category.name} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
-          {/* <div className="sm:col-span-2">
-            <label
-              htmlFor="price"
-              className="block text-sm font-semibold leading-6 text-gray-900"
-            >
-              Price
-            </label>
-            <div className="mt-2.5">
-              <input
-                type="email"
-                name="price"
-                id="price"
-                autoComplete="email"
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div> */}
           <div>
             <label
               htmlFor="price"
