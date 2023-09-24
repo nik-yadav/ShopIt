@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { API } from "../backend";
-// import category from "../../../projbackend/models/category";
 
 const product = {
   brand: "",
