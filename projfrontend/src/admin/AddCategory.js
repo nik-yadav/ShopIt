@@ -63,9 +63,9 @@ function AddCategory() {
 
   const handleOperation = () => {
     let url = `${API}/category/create/${user._id}`;
-    let method = "GET";
+    let method = "POST";
     if (!open.operation) return;
-    else {
+    else if (open.operation === "Update") {
       url = `${API}/category/${open.id}/${user._id}`;
       method = "PUT";
     }
