@@ -1,29 +1,30 @@
 const Category = require("../models/category");
 
-exports.getCategoryById = (req, res, next, id) => {
-  Category.findById(id).exec((err, category) => {
-    if (err) {
-      return res.status(400).json({
-        error: "category not found in DB",
-      });
-    }
-    req.category = category;
-    next();
-  });
+exports.getCategoryById = async (req, res, next, id) => {
+  const category = await Category.findById(id);
+  if (!category) {
+    return res.status(400).json({
+      error: "category not found in DB",
+      success: false,
+    });
+  }
+  req.category = category;
+  next();
 };
 
-exports.createCategory = (req, res) => {
+exports.createCategory = async (req, res) => {
   const category = new Category(req.body);
-  category.save((err, category) => {
-    if (err) {
-      return res.status(400).json({
-        error: "Not able to save category in DB",
-      });
-    }
-    res.json({
-      category,
-      success: true,
+  const result = await category.save();
+  if (!result) {
+    return res.status(400).json({
+      error: "Not able to save category in DB",
+      success: false,
     });
+  }
+
+  res.json({
+    category: result,
+    success: true,
   });
 };
 
@@ -41,31 +42,36 @@ exports.getAllCategory = async (req, res) => {
   res.json(categories);
 };
 
-exports.updateCategory = (req, res) => {
+exports.updateCategory = async (req, res) => {
   const category = req.category;
   category.name = req.body.name;
 
-  category.save((err, updatedCategory) => {
-    if (err) {
-      return res.status(400).json({
-        error: "failed to update category",
-      });
-    }
-    res.json(updatedCategory);
+  const result = await category.save();
+  if (!result) {
+    return res.status(400).json({
+      error: "Not able to save category in DB",
+      success: false,
+    });
+  }
+
+  res.json({
+    category: result,
+    success: true,
   });
 };
 
 exports.removeCategory = (req, res) => {
   const category = req.category;
-
   category.remove((err, category) => {
     if (err) {
       return res.status(400).json({
         error: "failed to delete category",
+        success: false,
       });
     }
     res.json({
       message: `${category.name} has been Successfully deleted`,
+      success: true,
     });
   });
 };
