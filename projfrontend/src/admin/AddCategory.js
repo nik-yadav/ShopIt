@@ -16,50 +16,22 @@ function AddCategory() {
   const [newCategory, setNewCategory] = useState({ name: "" });
   const { token, user } = JSON.parse(localStorage.getItem("jwt"));
 
-  // const handleAdd = () => {
-  //   fetch(`${API}/category/create/${user._id}`, {
-  //     method: "POST",
-  //     headers: {
-  //       Accept: "applicaton/json",
-  //       "Content-Type": "application/json",
-  //       Authorization: `bearer ${token}`,
-  //     },
-  //     body: JSON.stringify(newCategory),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => alert(data));
-  // };
-
   const handleRemove = (categoryId, index) => {
-    // fetch(`${API}/category/${categoryId}/${user._id}/`, {
-    //   method: "DELETE",
-    //   headers: {
-    //     Authorization: `bearer ${token}`,
-    //   },
-    // })
-    //   .then((response) => {
-    //     if (!response.success) {
-    //       console.error(response.error);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log("unable to fetch", err);
-    //   });
+    fetch(`${API}/category/${categoryId}/${user._id}/`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.success) {
+          console.error(response.error);
+        }
+      })
+      .catch((err) => {
+        console.log("unable to fetch", err);
+      });
   };
-
-  // const handleUpdate = (categoryId) => {
-  //   fetch(`${API}/category/${categoryId}/${user._id}`, {
-  //     method: "POST",
-  //     headers: {
-  //       Accept: "applicaton/json",
-  //       "Content-Type": "application/json",
-  //       Authorization: `bearer ${token}`,
-  //     },
-  //     body: JSON.stringify(newCategory),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => alert(data));
-  // };
 
   const handleOperation = () => {
     let url = `${API}/category/create/${user._id}`;
