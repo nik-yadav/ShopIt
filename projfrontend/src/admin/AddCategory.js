@@ -140,7 +140,6 @@ function AddCategory() {
                       <td className="px-6 py-4">
                         <PencilSquareIcon
                           className="h-5 w-5 cursor-pointer"
-                          // value={category.id}
                           onClick={() => {
                             handleClick("Update", category.id);
                           }}
