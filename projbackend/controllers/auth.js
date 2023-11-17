@@ -4,7 +4,7 @@ const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const { expressjwt } = require("express-jwt");
 
-exports.signup = (req, res) => {
+exports.signup = async (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -15,22 +15,23 @@ exports.signup = (req, res) => {
   }
 
   const user = new User(req.body);
-  user.save((err, user) => {
-    if (err) {
-      return res.status(400).json({
-        err: "NOT able to save user in DB",
-      });
-    }
-    res.json({
-      name: user.name,
-      email: user.email,
-      id: user._id,
-      success: true,
+  const result = await user.save();
+
+  if (!result) {
+    return res.status(400).json({
+      err: "NOT able to save user in DB",
     });
+  }
+
+  res.json({
+    name: user.name,
+    email: user.email,
+    id: user._id,
+    success: true,
   });
 };
 
-exports.signin = (req, res) => {
+exports.signin = async (req, res) => {
   const { email, password } = req.body;
   const errors = validationResult(req);
 
@@ -41,38 +42,36 @@ exports.signin = (req, res) => {
     });
   }
 
-  User.findOne({ email: email }, (err, user) => {
-    if (err || !user) {
-      return res.status(400).json({
-        error: "USER does not exists",
-      });
-    }
+  const user = await User.findOne({ email });
 
-    // console.log(err);
-    // console.log(!user); ----> true
-
-    if (!user.authenticate(password)) {
-      return res.status(401).json({
-        error: "Email and password does not match",
-      });
-    }
-    // Create token
-    const token = jwt.sign({ _id: user._id }, process.env.SECRET);
-    // put token in cookie
-    res.cookie("token", token, { expire: new Date() + 9999 });
-
-    // Send res to front-end
-    const { _id, name, email, role } = user;
-    return res.json({
-      token,
-      user: {
-        _id,
-        name,
-        email,
-        role,
-      },
-      success: true,
+  if (!user) {
+    return res.status(400).json({
+      error: "USER does not exists",
     });
+  }
+
+  if (!user.authenticate(password)) {
+    return res.status(401).json({
+      error: "Email and password does not match",
+    });
+  }
+
+  // Create token
+  const token = jwt.sign({ _id: user._id }, process.env.SECRET);
+  // put token in cookie
+  res.cookie("token", token, { expire: new Date() + 9999 });
+
+  // Send res to front-end
+  const { _id, name, role } = user;
+  return res.json({
+    token,
+    user: {
+      _id,
+      name,
+      email,
+      role,
+    },
+    success: true,
   });
 };
 
