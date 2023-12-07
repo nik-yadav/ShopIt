@@ -83,7 +83,7 @@ function AddCategory() {
         setCategories(list);
       })
       .catch((err) => console.error(err));
-  }, [open]);
+  }, [open, handleRemove]);
   return (
     <>
       <div className="flex flex-col p-10">
