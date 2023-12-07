@@ -118,7 +118,7 @@ export default function Sidebar({ children }) {
 
                   {/* Filters */}
                   <form className="mt-4 border-t border-gray-200">
-                    <h3 className="sr-only">Categories</h3>
+                    {/* <h3 className="sr-only">Categories</h3>
                     <ul className="px-2 py-3 font-medium text-gray-900">
                       {subCategories.map((category) => (
                         <li key={category.name}>
@@ -127,7 +127,7 @@ export default function Sidebar({ children }) {
                           </Link>
                         </li>
                       ))}
-                    </ul>
+                    </ul> */}
 
                     {filters.map((section) => (
                       <Disclosure
@@ -271,14 +271,14 @@ export default function Sidebar({ children }) {
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
               {/* Filters */}
               <form className="hidden lg:block">
-                <h3 className="sr-only">Categories</h3>
+                {/* <h3 className="sr-only">Categories</h3>
                 <ul className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                   {subCategories.map((category) => (
                     <li key={category.name}>
                       <a href={category.href}>{category.name}</a>
                     </li>
                   ))}
-                </ul>
+                </ul> */}
 
                 {filters.map((section) => (
                   <Disclosure
