@@ -60,18 +60,22 @@ exports.updateCategory = async (req, res) => {
   });
 };
 
-exports.removeCategory = (req, res) => {
+exports.removeCategory = async (req, res) => {
   const category = req.category;
-  category.remove((err, category) => {
-    if (err) {
-      return res.status(400).json({
-        error: "failed to delete category",
-        success: false,
-      });
-    }
-    res.json({
-      message: `${category.name} has been Successfully deleted`,
-      success: true,
+  const name = category.name;
+  console.log(category);
+  const result = await category.deleteOne();
+  console.log(`${name} has been deleted`);
+
+  if (!result) {
+    return res.status(400).json({
+      error: "failed to delete category",
+      success: false,
     });
+  }
+
+  res.json({
+    message: `${category.name} has been Successfully deleted`,
+    success: true,
   });
 };
