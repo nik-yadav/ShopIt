@@ -51,13 +51,24 @@ exports.createProduct = (req, res) => {
     }
 
     // destructure the fields
-    const { name, description, price, category, stock } = convertedFields;
+    const { name, brand, description, price, category, stock } =
+      convertedFields;
 
-    if (!brand || !mrp || !name || !description || !price || !category || !stock) {
+    if (
+      !brand ||
+      // !mrp ||
+      !name ||
+      !description ||
+      !price ||
+      !category ||
+      !stock
+    ) {
       return res.status(400).json({
         error: "Please include all fields",
       });
     }
+
+    convertedFields.reviews = "0";
 
     let product = new Product(convertedFields);
 

@@ -62,10 +62,10 @@ exports.updateCategory = async (req, res) => {
 
 exports.removeCategory = async (req, res) => {
   const category = req.category;
-  const name = category.name;
-  console.log(category);
+  // const name = category.name;
+  // console.log(category);
   const result = await category.deleteOne();
-  console.log(`${name} has been deleted`);
+  // console.log(`${name} has been deleted`);
 
   if (!result) {
     return res.status(400).json({
