@@ -41,8 +41,15 @@ function ProductCard({ product }) {
   // })();
   return (
     <div className="card  bg-base-100 hover:shadow-2xl border border-gray-100">
-      <figure>
-        <img src={`${API}/images/${imageData}`} alt="Shoes" />
+      <figure
+        className="w-full flex items-center justify-center bg-blue-gray-50 p-2"
+        style={{ height: "250px" }}
+      >
+        <img
+          style={{ maxHeight: "200px", maxWidth: "100%" }}
+          src={`${API}/images/${imageData}`}
+          alt="Shoes"
+        />
         {/* {imageData} */}
       </figure>
       <div className="card-body flex flex-col gap-1 p-3 text-center">
