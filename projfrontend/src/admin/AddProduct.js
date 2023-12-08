@@ -43,6 +43,9 @@ function AddProduct() {
       .setAttribute("class", "hidden");
     // console.log(e.target.closest("input"));
     const newImage = document.createElement("img");
+    newImage.style.height = "300px";
+    newImage.style.width = "300px";
+    // newImage.style.objectFit = "none";
 
     const imageFile = e.target.files[0];
     // newImage.src = imageFile;
@@ -128,7 +131,7 @@ function AddProduct() {
       </div>
       <form className="mx-auto mt-10 max-w-xl">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-          <div className="mt-2.5 sm:col-span-2">
+          <div className="mt-2.5 sm:col-span-2 flex flex-col items-center">
             <label
               htmlFor="image"
               className="text-sm font-semibold leading-6 text-gray-900 flex flex-col items-center p-5 rounded-2xl bg-green-50 cursor-pointer"
