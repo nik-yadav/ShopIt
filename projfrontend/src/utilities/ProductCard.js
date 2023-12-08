@@ -5,7 +5,7 @@ import { addToCart } from "../redux/reducers/cartSlice";
 import { API } from "../backend";
 
 function ProductCard({ product }) {
-  const [imageData, setImageData] = useState("");
+  const [imageSrc, setImageSrc] = useState("");
   // let imageData = "";
   const cart = useSelector((state) => state.cart.value);
   const dispatch = useDispatch();
@@ -21,7 +21,8 @@ function ProductCard({ product }) {
       .then((data) => {
         console.log(data);
         if (data.success) {
-          setImageData(data.imageName);
+          product.imageSrc = `${API}/images/${data.imageName}`;
+          setImageSrc(product.imageSrc);
           // console.log(data.imageName);
         }
       });
@@ -47,7 +48,7 @@ function ProductCard({ product }) {
       >
         <img
           style={{ maxHeight: "200px", maxWidth: "100%" }}
-          src={`${API}/images/${imageData}`}
+          src={imageSrc}
           alt="Shoes"
         />
         {/* {imageData} */}
