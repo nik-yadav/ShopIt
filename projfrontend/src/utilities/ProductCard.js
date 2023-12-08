@@ -1,19 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/reducers/cartSlice";
+import { API } from "../backend";
 
 function ProductCard({ product }) {
+  const [imageData, setImageData] = useState("");
+  // let imageData = "";
   const cart = useSelector((state) => state.cart.value);
   const dispatch = useDispatch();
-  const { brand, name, rating, reviews, price, mrp, off } = product;
+  const { _id, brand, name, rating, reviews, price, mrp, off } = product;
+  // console.log(`product/photo/${_id}`);
+  // console.log(brand);
+  useEffect(() => {
+    if (!_id) return;
+    fetch(`${API}/product/photo/${_id}`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        if (data.success) {
+          setImageData(data.imageName);
+          // console.log(data.imageName);
+        }
+      });
+    //     .then((data) => {
+    //       // const url = URL.createObjectUrl(data.photo);
+    //       console.log(data);
+    //       setImageData(data);
+    //       // setImageData(URL.createObjectURL(data));
+    //       // console.log(data);
+    //     });
+  }, []);
+
+  // const imageSrc = (() => {
+  //   if (!product.imageSrc){}
+  //     return "https://imgs.search.brave.com/aMhXcStaFIX3MeLAoqCkjesqSEYRvzToNnAOWOvMoos/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTI4/ODk2NzUxMC9waG90/by9zdHlsaXNoLWJs/b25kZS1naXJsLXdl/YXJpbmctd2hpdGUt/dC1zaGlydC1hbmQt/Z2xhc3Nlcy5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9VXRj/azFoSkJWS3EwU2pC/cGlBbHFBTmlodHdJ/X0pJeE4xZ0NKU2lK/M1p1cz0";
+  //   return product.imageSrc;
+  // })();
   return (
     <div className="card  bg-base-100 hover:shadow-2xl border border-gray-100">
       <figure>
-        <img
-          src="https://imgs.search.brave.com/aMhXcStaFIX3MeLAoqCkjesqSEYRvzToNnAOWOvMoos/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTI4/ODk2NzUxMC9waG90/by9zdHlsaXNoLWJs/b25kZS1naXJsLXdl/YXJpbmctd2hpdGUt/dC1zaGlydC1hbmQt/Z2xhc3Nlcy5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9VXRj/azFoSkJWS3EwU2pC/cGlBbHFBTmlodHdJ/X0pJeE4xZ0NKU2lK/M1p1cz0"
-          alt="Shoes"
-        />
+        <img src={`${API}/images/${imageData}`} alt="Shoes" />
+        {/* {imageData} */}
       </figure>
       <div className="card-body flex flex-col gap-1 p-3 text-center">
         <h2 className="card-title font-bold">{brand}</h2>

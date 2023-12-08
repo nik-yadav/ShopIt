@@ -16,9 +16,9 @@ export default function Home() {
   return (
     <Sidebar>
       <div className="grid grid-cols-3 gap-y-3 gap-x-2">
-        {products.map((product) => (
-          <ProductCard key={product._id} product={product} />
-        ))}
+        {products.map((product) => {
+          return <ProductCard key={product._id} product={product} />;
+        })}
       </div>
     </Sidebar>
   );

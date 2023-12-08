@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { API } from "../backend";
+// import { log } from "console";
 
 const product = {
   brand: "",
@@ -12,11 +13,65 @@ const product = {
 
 function AddProduct() {
   const [formData, setFormData] = useState(product);
+  const [imageData, setImageData] = useState(null);
   const [categories, setCategories] = useState([{}]);
+
+  // function convertToBase64(file) {
+  //   return new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsDataURL(file);
+  //     fileReader.onload = () => {
+  //       resolve(fileReader.result);
+  //     };
+  //     fileReader.onerror = (error) => {
+  //       reject(error);
+  //     };
+  //   });
+  // }
 
   const handleChange = (e) => {
     const data = { ...formData, [e.target.name]: e.target.value };
     setFormData(data);
+  };
+
+  const handleImage = async (e) => {
+    // e.target.parentElement.setAttribute("class", "hidden");
+    if (e.target.parentElement.querySelector("img"))
+      e.target.parentElement.querySelector("img").remove();
+    e.target.parentElement
+      .querySelector("label")
+      .setAttribute("class", "hidden");
+    // console.log(e.target.closest("input"));
+    const newImage = document.createElement("img");
+
+    const imageFile = e.target.files[0];
+    // newImage.src = imageFile;
+    newImage.src = URL.createObjectURL(imageFile);
+    e.target.parentElement.appendChild(newImage);
+
+    setImageData(imageFile);
+    // console.log(newImage.src);
+
+    // setFormData({ ...formData, imageFile: e.target.files[0] });
+
+    e.target.parentElement.querySelector("button").style.display = "block";
+
+    // const replaceImagebtn = document.createElement("button");
+    // replaceImagebtn.addEventListener("click", handleImage);
+    // replaceImagebtn.textContent = "replace image";
+    // replaceImagebtn.classList =
+    //   "block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600";
+
+    // replaceImagebtn.addEventListener("click", () => {
+    //   e.preventDefault();
+    //   e.parentElement.querySelector("input").click();
+    // });
+
+    // e.target.parentElement.appendChild(replaceImagebtn);
+
+    // newImage.src = URL.createObjectURL(e.target.value);
+    console.log(e.target.parentElement.querySelector("label"));
+    // console.log(e.target.parentElement);
   };
 
   const handleSubmit = async (e) => {
@@ -28,6 +83,13 @@ function AddProduct() {
     for (const key in formData) {
       formDataToSend.append(key, formData[key]);
     }
+    // console.log(ima)
+
+    formDataToSend.append("photo", imageData);
+    // formData.photo = imageData;
+    // console.log(imageData);
+
+    // console.log(JSON.stringify(formData));
 
     fetch(`${API}/product/create/${user._id}`, {
       method: "POST",
@@ -66,6 +128,48 @@ function AddProduct() {
       </div>
       <form className="mx-auto mt-10 max-w-xl">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+          <div className="mt-2.5 sm:col-span-2">
+            <label
+              htmlFor="image"
+              className="text-sm font-semibold leading-6 text-gray-900 flex flex-col items-center p-5 rounded-2xl bg-green-50 cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+                />
+              </svg>
+              Choose image to upload
+            </label>
+            <input
+              type="file"
+              name="image"
+              id="image"
+              autoComplete="given-name"
+              className="hidden w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              // onChange={handleChange}
+              value={formData.image}
+              accept="image/png, image/jpeg"
+              onChange={handleImage}
+            />
+            <button
+              className="hidden w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              onClick={(e) => {
+                e.preventDefault();
+                e.target.parentElement.querySelector("input").click();
+              }}
+            >
+              replace image
+            </button>
+          </div>
           <div>
             <label
               htmlFor="brand"
