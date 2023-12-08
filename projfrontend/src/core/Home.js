@@ -17,7 +17,7 @@ export default function Home() {
     <Sidebar>
       <div className="grid grid-cols-3 gap-y-3 gap-x-2">
         {products.map((product) => {
-          return <ProductCard key={product._id} product={product} />;
+          return <ProductCard key={Math.random()} product={product} />;
         })}
       </div>
     </Sidebar>
