@@ -3,19 +3,26 @@ const formidable = require("formidable");
 const _ = require("lodash");
 const fs = require("fs");
 const { sortBy } = require("lodash");
+const { Console } = require("console");
 
-exports.getProductById = (req, res, next, id) => {
-  Product.findById(id)
-    .populate("category")
-    .exec((err, product) => {
-      if (err) {
-        return res.status(400).json({
-          err: "Product not found",
-        });
-      }
-      req.product = product;
-      next();
+exports.getProductById = async (req, res, next, id) => {
+  const product = await Product.findById(id).populate("category");
+  if (!product) {
+    return res.status(400).json({
+      err: "Product not found",
     });
+  }
+  req.product = product;
+  next();
+  // .exec((err, product) => {
+  //   if (err) {
+  //     return res.status(400).json({
+  //       err: "Product not found",
+  //     });
+  //   }
+  //   req.product = product;
+  //   next();
+  // });
 };
 
 exports.getProduct = (req, res) => {
@@ -24,74 +31,75 @@ exports.getProduct = (req, res) => {
 };
 
 // Middleware
-exports.photo = (req, res, next) => {
-  if (req.product.photo.data) {
-    res.set("Content-Type", req.product.photo.contentType);
-    return res.send(req.product.photo.data);
+exports.photo = (req, res) => {
+  console.log("inside photo");
+  if (req.product.photo) {
+    return res.json({
+      success: true,
+      imageName: req.product.photo,
+    });
+    // res.set("Content-Type", req.product.photo.contentType);
+    // return res.send(req.product.photo.data);
   }
-  next();
+  return res.json({
+    success: "false",
+  });
 };
 
 // Create
-exports.createProduct = (req, res) => {
-  const form = new formidable.IncomingForm();
-  form.keepExtensions = true;
+exports.createProduct = async (req, res) => {
+  // const form = new formidable.IncomingForm();
+  // form.keepExtensions = true;
 
-  form.parse(req, async (err, fields, file) => {
-    if (err) {
-      return res.status(400).json({
-        error: "problem with image",
-      });
-    }
+  // form.parse(req, async (err, fields, file) => {
+  //   if (err) {
+  //     return res.status(400).json({
+  //       error: "problem with image",
+  //     });
+  //   }
 
-    let convertedFields = {};
+  //   let convertedFields = {};
 
-    for (const field in fields) {
-      convertedFields[field] = fields[field][0];
-    }
+  //   for (const field in fields) {
+  //     convertedFields[field] = fields[field][0];
+  //   }
 
-    // destructure the fields
-    const { name, brand, description, price, category, stock } =
-      convertedFields;
+  // destructure the fields
+  // req.body = JSON.parse(req.body);
+  console.log(req.imageName);
+  const { name, brand, description, price, category, stock } = req.body;
+  if (
+    !brand ||
+    // !mrp ||
+    !name ||
+    !description ||
+    !price ||
+    !category ||
+    !stock
+  ) {
+    return res.status(400).json({
+      error: "Please include all fields",
+    });
+  }
 
-    if (
-      !brand ||
-      // !mrp ||
-      !name ||
-      !description ||
-      !price ||
-      !category ||
-      !stock
-    ) {
-      return res.status(400).json({
-        error: "Please include all fields",
-      });
-    }
+  req.body.reviews = "0";
 
-    convertedFields.reviews = "0";
+  // console.log(imageFile);
+  // handle file image
+  req.body.photo = req.imageName;
 
-    let product = new Product(convertedFields);
+  let product = new Product(req.body);
 
-    // handle file here
-    if (file.photo) {
-      if (file.photo.size > 3000000) {
-        return res.status(400).json({
-          error: "file size too big!",
-        });
-      }
-      product.photo.data = fs.readFileSync(file.photo.path);
-      product.photo.contentType = file.photo.type;
-    }
-
-    // save to the DB
-    const result = await product.save();
-    if (!result) {
-      return res.status(400).json({
-        error: "saving product in DB failed",
-      });
-    }
-    res.json(product);
-  });
+  // save to the DB
+  console.log(product);
+  const result = await product.save();
+  if (!result) {
+    return res.status(400).json({
+      error: "saving product in DB failed",
+    });
+  }
+  res.json(product);
+  // });
 };
 
 // Update

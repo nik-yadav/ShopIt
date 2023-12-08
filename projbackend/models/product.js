@@ -52,8 +52,9 @@ const productSchema = new mongoose.Schema(
       default: 0,
     },
     photo: {
-      data: Buffer,
-      contentType: String,
+      type: String,
+      // data: String,
+      // contentType: String,
     },
   },
   { timestamps: true }

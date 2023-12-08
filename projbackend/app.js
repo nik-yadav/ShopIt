@@ -36,6 +36,7 @@ app.use("/api", userRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", productRoutes);
 app.use("/api", orderRoutes);
+app.use("/api/images", express.static("tshirts"));
 
 // mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true });
 

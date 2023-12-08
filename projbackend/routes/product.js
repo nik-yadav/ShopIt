@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { upload } = require("../utils/multer");
 
 const {
   getProductById,
@@ -30,6 +31,7 @@ router.post(
   isSignedIn,
   isAuthenticated,
   isAdmin,
+  upload.single("photo"),
   createProduct
 );
 
