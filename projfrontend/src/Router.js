@@ -15,6 +15,8 @@ import UserDashBoard from "./user/UserDashBoard";
 import AdminDashBoard from "./user/AdminDashBoard";
 import ErrorBoundary from "./core/ErrorBoundary";
 import Checkout from "./core/Checkout";
+import Stripe from "./core/Stripe";
+import ProductDescription from "./core/ProductDescription";
 import Profile from "./admin/Profile";
 import AddCategory from "./admin/AddCategory";
 import AddProduct from "./admin/AddProduct";
@@ -25,8 +27,12 @@ const Router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />} errorElement={<ErrorBoundary />}>
       <Route path="" element={<Home />} />
+      <Route path="product" element={<ProductDescription />} />
       <Route path="cart" element={<Outlet />}>
+        {/* <Route path="checkout" element={<Outlet />}> */}
         <Route path="checkout" element={<Checkout />} />
+        <Route path="pay" element={<Stripe />} />
+        {/* </Route> */}
       </Route>
       <Route path="signup" element={<Signup />} />
       <Route path="signin" element={<Signin />} />

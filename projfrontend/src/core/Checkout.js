@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart } from "../redux/reducers/cartSlice";
 
 export default function Checkout() {
   const products = useSelector((state) => state.cart.value);
+  const navigate = useNavigate();
   const [subTotal, setSubTotal] = useState(0);
 
   const dispatch = useDispatch();
@@ -219,6 +221,7 @@ export default function Checkout() {
                         <button
                           type="button"
                           className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                          onClick={() => navigate("/cart/pay")}
                         >
                           Make payment
                         </button>

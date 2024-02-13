@@ -60,3 +60,14 @@ export const isAuthenticated = () => {
     return false;
   }
 };
+
+// export const isAdmin = () => {
+//   if (typeof window == "undefined") {
+//     return false;
+//   }
+//   if (JSON.parse(localStorage.getItem("jwt")).user.role === 1 /*localStorage.getItem("jwt")*/ ) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// };
