@@ -39,17 +39,21 @@ function Signin() {
 
   const performRedirect = () => {
     // todo: do a reirection;
-    if (didRedirect) {
-      return navigate(-1);
-      // if (user && user.role === 1) {
-      //   return <Navigate to="/admin/dashboard" />;
-      // } else {
-      //   return <Navigate to="/user/dashboard" />;
-      // }
-    }
+    // if (didRedirect) {
+    // return navigate(-1);
+    // if (user && user.role === 1) {
+    //   return <Navigate to="/admin/dashboard" />;
+    // } else {
+    //   return <Navigate to="/user/dashboard" />;
+    // }
+    // }
+
     if (isAuthenticated()) {
-      return <Navigate to="/" />;
+      if (isAuthenticated().user.role !== 1) return <Navigate to="/" />;
+      return <Navigate to="/admin/dashboard" />;
     }
+
+    // if(isAuthenticated() && isAdmin)
   };
 
   const loadingMessage = () => {

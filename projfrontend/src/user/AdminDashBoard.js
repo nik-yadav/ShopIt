@@ -85,7 +85,7 @@ const AdminDashBoard = () => {
                 </svg>
                 <span className="mx-2 text-sm font-medium">Products</span>
               </Link>
-              <Link
+              {/* <Link
                 className="flex transform items-center rounded-lg px-3 py-2 text-gray-600 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
                 to="/admin/dashboard/manage/orders"
               >
@@ -106,11 +106,11 @@ const AdminDashBoard = () => {
                   <path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"></path>
                 </svg>
                 <span className="mx-2 text-sm font-medium">Orders</span>
-              </Link>
+              </Link> */}
             </div>
 
             {/* content section */}
-            <div className="space-y-3 ">
+            {/* <div className="space-y-3 ">
               <label className="px-3 text-xs font-semibold uppercase text-gray-900">
                 content
               </label>
@@ -183,7 +183,7 @@ const AdminDashBoard = () => {
                 </svg>
                 <span className="mx-2 text-sm font-medium">Checklists</span>
               </Link>
-            </div>
+            </div> */}
           </nav>
         </div>
       </aside>
