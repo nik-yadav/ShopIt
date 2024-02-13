@@ -141,31 +141,55 @@ exports.updateProduct = (req, res) => {
 };
 
 // Delete
-exports.deleteProduct = (req, res) => {
+exports.deleteProduct = async (req, res) => {
   let product = req.product;
-  product.remove((err, deletedproduct) => {
-    if (err) {
-      return res.status(400).json({
-        err: "Failed to delte the product",
-      });
-    }
-    res.json({
-      message: "Deleted successfully",
-      deletedproduct,
+
+  const result = await product.deleteOne();
+
+  // product.remove((err, deletedproduct) => {
+  //   if (err) {
+  //     return res.status(400).json({
+  //       err: "Failed to delte the product",
+  //     });
+  //   }
+  //   res.json({
+  //     message: "Deleted successfully",
+  //     deletedproduct,
+  //   });
+  // });
+
+  if (!result) {
+    return res.status(400).json({
+      error: "failed to delete product",
+      success: false,
     });
+  }
+
+  res.json({
+    message: `${product.name} has been Successfully deleted`,
+    success: true,
   });
 };
 
 // Product Listing
 exports.getAllProducts = async (req, res) => {
   let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+  // if (req.query.limit === "all") limit = null;
   let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
 
-  const products = await Product.find()
-    .select("-photo")
-    .populate("category")
-    .sort([[sortBy, "asc"]])
-    .limit(limit);
+  // const user = await User.findById(req.auth._id)
+  let products;
+  if (req.query.limit === "all")
+    products = await Product.find()
+      .select("-photo")
+      .populate("category")
+      .sort([[sortBy, "asc"]]);
+  else
+    products = await Product.find()
+      .select("-photo")
+      .populate("category")
+      .sort([[sortBy, "asc"]])
+      .limit(limit);
 
   if (!products) {
     return res.status(400).json({
