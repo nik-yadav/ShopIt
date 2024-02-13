@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/reducers/cartSlice";
 import { API } from "../backend";
 
-function ProductCard({ product }) {
+function ProductCard({ product, onSelect }) {
   const [imageSrc, setImageSrc] = useState("");
   // let imageData = "";
   const cart = useSelector((state) => state.cart.value);
@@ -19,7 +19,7 @@ function ProductCard({ product }) {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (data.success) {
           product.imageSrc = `${API}/images/${data.imageName}`;
           setImageSrc(product.imageSrc);
@@ -50,6 +50,9 @@ function ProductCard({ product }) {
           style={{ maxHeight: "200px", maxWidth: "100%" }}
           src={imageSrc}
           alt="Shoes"
+          onClick={() => {
+            onSelect(product);
+          }}
         />
         {/* {imageData} */}
       </figure>
