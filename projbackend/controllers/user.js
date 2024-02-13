@@ -2,7 +2,7 @@ const User = require("../models/user");
 const Order = require("../models/order");
 
 exports.getUserById = async (req, res, next, id) => {
-  const user = await User.findById(id).exec();
+  const user = await User.findById(id);
   if (!user) {
     return res.status(400).json({
       err: "No user was found in DB",
