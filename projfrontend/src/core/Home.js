@@ -8,16 +8,30 @@ export default function Home() {
   const [products, setProducts] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedProduct, setSelectedProduct] = useState(null);
-
-  // console.log("API IS", API);
+  const [errMessage, setErrMessage] = useState(null);
 
   useEffect(() => {
+    // fetch all of the products from database when the component first mounts
     fetch(`${API}/products?limit=all`)
       .then((response) => response.json())
-      .then((data) => setProducts(data));
+      .then((data) => setProducts(data))
+      .catch((err) => {
+        console.log(err);
+        setErrMessage(err.message);
+      });
   }, []);
 
-  if (!products) return "Loading...";
+  // show error page, if something went wrong while fethcing the data from backend
+  if (errMessage)
+    return (
+      <div className="text-center">
+        {errMessage +
+          ", sorry for the incovenience, seems like backend server is not alive"}
+      </div>
+    );
+
+  // show loading... text while data is being fetched from the backend
+  if (!products) return <div className="text-center">Loading...</div>;
 
   return (
     <>
