@@ -16,17 +16,18 @@ function AddCategory() {
   const [newCategory, setNewCategory] = useState({ name: "" });
   const { token, user } = JSON.parse(localStorage.getItem("jwt"));
 
-  const handleRemove = (categoryId, index) => {
+  const handleRemove = (categoryId) => {
     fetch(`${API}/category/${categoryId}/${user._id}/`, {
       method: "DELETE",
       headers: {
         Authorization: `bearer ${token}`,
       },
     })
-      .then((response) => {
-        if (!response.success) {
-          console.error(response.error);
-        }
+      .then(() => {
+        let updatedCategories = categories.filter(
+          (category) => category.id !== categoryId
+        );
+        setCategories(updatedCategories);
       })
       .catch((err) => {
         console.log("unable to fetch", err);
@@ -52,7 +53,25 @@ function AddCategory() {
       body: JSON.stringify(newCategory),
     })
       .then((response) => response.json())
-      .then((data) => alert(data));
+      .then((data) => {
+        console.log(data);
+        alert(data.category.name + ` was ${open.operation}d successfully`);
+        setCategories((prevState) => {
+          // filter out the existing info of modified category
+          let updatedState = prevState.filter(
+            (category) => category.id !== data.category._id
+          );
+
+          // push the latest info recieved from server into the state
+          updatedState.push({
+            id: data.category._id,
+            name: data.category.name,
+            createdAt: new Date(data.category.createdAt).toString(),
+            updatedAt: new Date(data.category.updatedAt).toString(),
+          });
+          return updatedState;
+        });
+      });
   };
 
   const handleClick = (operation, id) => {
@@ -83,7 +102,8 @@ function AddCategory() {
         setCategories(list);
       })
       .catch((err) => console.error(err));
-  }, [open, handleRemove]);
+  }, []);
+
   return (
     <>
       <div className="flex flex-col p-10">
@@ -133,7 +153,7 @@ function AddCategory() {
                         <TrashIcon
                           className="h-5 w-5 cursor-pointer"
                           onClick={() => {
-                            handleRemove(category.id, index);
+                            handleRemove(category.id);
                           }}
                         />
                       </td>
