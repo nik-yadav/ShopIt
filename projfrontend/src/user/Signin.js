@@ -34,7 +34,7 @@ function Signin() {
           });
         }
       })
-      .catch(console.log("Sign in request failed")); // donknw why this is hitting even on succssful login!!
+      .catch((err) => console.log("Sign in request failed")); // donknw why this is hitting even on succssful login!!
   };
 
   const performRedirect = () => {
