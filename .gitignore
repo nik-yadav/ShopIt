@@ -2,5 +2,5 @@ node_modules/
 projbackend/tshirts/
 .env
 
-projfrontend/.env
-projbackend/.env
+frontend/.env
+backend/.env
